@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Card Studio</title>
+    <link rel="stylesheet" href="/static/css/app.css">
+    <link rel="stylesheet" href="/static/css/report.css">
+    <link rel="icon" type="image/svg+xml" href="/static/ico/favicon.svg">
+    <link rel="icon" href="/static/ico/favicon.ico" sizes="any">
+    <script>
+        try {
+            if (localStorage.getItem("lang") === "fa") {
+                document.documentElement.lang = "fa";
+                document.documentElement.dir = "rtl";
+            }
+        } catch (e) {}
+    </script>
+</head>
+<body>
+    <div id="app"></div>
+    <noscript>This application requires JavaScript.</noscript>
+    <script src="/static/js/app.js" defer></script>
+</body>
+</html>

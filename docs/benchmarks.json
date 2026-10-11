@@ -1,0 +1,184 @@
+{
+  "env": {
+    "os": "Linux 6.18.44-fc-v114 (x64)",
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+    "cores": 1,
+    "memGB": 4,
+    "node": "v22.22.2",
+    "chrome": "HeadlessChrome/153.0.8010.0"
+  },
+  "excel": [
+    {
+      "students": 100,
+      "subjects": 15,
+      "fileKB": 14,
+      "medianMs": 36.53453400000012,
+      "studentsPerSec": 2737
+    },
+    {
+      "students": 1000,
+      "subjects": 15,
+      "fileKB": 75,
+      "medianMs": 170.63655599999993,
+      "studentsPerSec": 5860
+    },
+    {
+      "students": 5000,
+      "subjects": 15,
+      "fileKB": 349,
+      "medianMs": 788.254269,
+      "studentsPerSec": 6343
+    }
+  ],
+  "server": {
+    "startMs": 823.363942,
+    "rssMB": 80.86328125,
+    "health": {
+      "p50": 1.4812959999999293,
+      "p95": 6.066851999999926
+    },
+    "home": {
+      "p50": 1.2485999999989872,
+      "p95": 4.483244999999442
+    },
+    "appJs": {
+      "p50": 3.1766270000007353,
+      "p95": 14.516583000000537
+    },
+    "upload1000Ms": 266.16576200000054
+  },
+  "render": [
+    {
+      "template": "minimal",
+      "students": 30,
+      "sheets": 3,
+      "perSheet": 12,
+      "buildMs": 13.599999999976717,
+      "layoutMs": 9.700000000011642,
+      "paintMs": 17.5,
+      "nodes": 1056
+    },
+    {
+      "template": "minimal",
+      "students": 300,
+      "sheets": 25,
+      "perSheet": 12,
+      "buildMs": 33.59999999997672,
+      "layoutMs": 140.5000000000582,
+      "paintMs": 50.89999999990687,
+      "nodes": 10550
+    },
+    {
+      "template": "minimal",
+      "students": 3000,
+      "sheets": 250,
+      "perSheet": 12,
+      "buildMs": 246.19999999995343,
+      "layoutMs": 1699.9000000000233,
+      "paintMs": 524.0999999999767,
+      "nodes": 105500
+    },
+    {
+      "template": "professional",
+      "students": 30,
+      "sheets": 15,
+      "perSheet": 2,
+      "buildMs": 8.599999999976717,
+      "layoutMs": 25.699999999953434,
+      "paintMs": 18.300000000046566,
+      "nodes": 1860
+    },
+    {
+      "template": "professional",
+      "students": 300,
+      "sheets": 150,
+      "perSheet": 2,
+      "buildMs": 38.20000000006985,
+      "layoutMs": 197.30000000004657,
+      "paintMs": 51.800000000046566,
+      "nodes": 18600
+    },
+    {
+      "template": "professional",
+      "students": 3000,
+      "sheets": 1500,
+      "perSheet": 2,
+      "buildMs": 411.80000000004657,
+      "layoutMs": 1710.5999999999767,
+      "paintMs": 534.3000000000466,
+      "nodes": 186000
+    },
+    {
+      "template": "playful",
+      "students": 30,
+      "sheets": 30,
+      "perSheet": 1,
+      "buildMs": 8.300000000046566,
+      "layoutMs": 17.300000000046566,
+      "paintMs": 6.800000000046566,
+      "nodes": 2130
+    },
+    {
+      "template": "playful",
+      "students": 300,
+      "sheets": 300,
+      "perSheet": 1,
+      "buildMs": 121.5,
+      "layoutMs": 326.19999999995343,
+      "paintMs": 115.20000000006985,
+      "nodes": 21300
+    },
+    {
+      "template": "playful",
+      "students": 3000,
+      "sheets": 3000,
+      "perSheet": 1,
+      "buildMs": 689.6999999999534,
+      "layoutMs": 3059.5,
+      "paintMs": 1205.3000000000466,
+      "nodes": 213000
+    }
+  ],
+  "pdf": [
+    {
+      "template": "minimal",
+      "students": 30,
+      "sheets": 3,
+      "ms": 188.08958300000086,
+      "sizeKB": 185.4365234375
+    },
+    {
+      "template": "minimal",
+      "students": 300,
+      "sheets": 25,
+      "ms": 1401.008673000004,
+      "sizeKB": 1768.59765625
+    },
+    {
+      "template": "professional",
+      "students": 30,
+      "sheets": 15,
+      "ms": 291.6089389999979,
+      "sizeKB": 477.48828125
+    },
+    {
+      "template": "professional",
+      "students": 300,
+      "sheets": 150,
+      "ms": 2989.8620200000005,
+      "sizeKB": 4608.1064453125
+    }
+  ],
+  "bundle": {
+    "appJsKB": 92.7412109375,
+    "appJsGzKB": 22.3720703125,
+    "cssKB": 26.4931640625,
+    "cssGzKB": 5.8671875
+  },
+  "binary": {
+    "file": "release/report-card-studio-linux-x64",
+    "sizeMB": 72.88206577301025,
+    "startMs": 285.7596020000001,
+    "rssMB": 90.625
+  }
+}

@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }}, Node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [22]
+        include:
+          - os: ubuntu-latest
+            node: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - name: Type-check (server, client, tests)
+        run: npm run typecheck
+      - name: Unit and integration tests
+        run: npm test
+      - name: Build (server + client bundle)
+        run: npm run build
+
+  layout:
+    name: A4 layout checks (real Chrome)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Render every template x layout x subject count and assert nothing overflows
+        run: CHROME_PATH="$(command -v google-chrome)" npm run test:layout
+
+  executable:
+    name: Standalone executable smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build && npm run build:bundle
+      - name: Package for Linux
+        run: npx pkg dist/bundle/server.cjs --config pkg.config.json --targets node22-linux-x64 --output release/rcs --compress GZip
+      - name: Run it and request the app, an asset and a font
+        run: |
+          ./release/rcs --version
+          QUIET=1 ./release/rcs --port 18080 --no-open &
+          pid=$!
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:18080/api/health && break; sleep 1; done
+          curl -fs http://127.0.0.1:18080/ | grep -q "Report Card Studio"
+          curl -fs -o /dev/null http://127.0.0.1:18080/static/js/app.js
+          curl -fs -o /dev/null http://127.0.0.1:18080/fonts/Vazirmatn.woff2
+          curl -fs -o /dev/null "http://127.0.0.1:18080/sample.xlsx?lang=fa"
+          kill $pid
+
+  docker:
+    name: Docker image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: report-card-studio:ci
+      - name: Container answers its health check
+        run: |
+          docker run -d --name rcs -p 8080:8080 report-card-studio:ci
+          for i in $(seq 1 30); do curl -fs http://127.0.0.1:8080/api/health && break; sleep 1; done
+          curl -fs http://127.0.0.1:8080/ | grep -q "Report Card Studio"
+          docker rm -f rcs

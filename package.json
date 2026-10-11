@@ -1,0 +1,61 @@
+{
+  "name": "report-card-studio",
+  "version": "1.1.0",
+  "description": "Print-ready student report cards from Excel or manual entry. English and Persian (RTL), three templates, six themes.",
+  "main": "dist/server/main.js",
+  "scripts": {
+    "build:server": "tsc -p tsconfig.json",
+    "build:client": "node scripts/build-client.mjs",
+    "build": "npm run build:server && npm run build:client",
+    "start": "node dist/server/main.js",
+    "dev": "npm run build:client && tsx src/server/main.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.client.json && tsc --noEmit -p tsconfig.test.json",
+    "test": "node scripts/run-tests.mjs",
+    "test:layout": "node test/layout.e2e.mjs",
+    "bench": "node scripts/bench.mjs",
+    "screenshots": "node scripts/screenshots.mjs",
+    "package": "npm run build && npm run build:bundle && pkg dist/bundle/server.cjs --config pkg.config.json --compress GZip",
+    "build:bundle": "esbuild src/server/main.ts --bundle --platform=node --target=node22 --format=cjs --outfile=dist/bundle/server.cjs --log-level=warning",
+    "pretest": "npm run build:client"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "express": "^5.3.0",
+    "multer": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.3.0",
+    "@types/node": "^26.6.5",
+    "@yao-pkg/pkg": "^6.23.0",
+    "esbuild": "^0.28.2",
+    "puppeteer-core": "^25.13.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "bin": "dist/server/main.js",
+  "keywords": [
+    "report-card",
+    "school",
+    "education",
+    "excel",
+    "pdf",
+    "persian",
+    "rtl",
+    "typescript",
+    "express"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sobhanmohammadi-dev/ReportCardStudio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sobhanmohammadi-dev/ReportCardStudio/issues"
+  },
+  "homepage": "https://github.com/sobhanmohammadi-dev/ReportCardStudio#readme",
+  "private": true
+}

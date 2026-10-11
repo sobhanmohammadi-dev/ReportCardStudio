@@ -1,0 +1,7 @@
+{
+  "name": "report-card-studio",
+  "pkg": {
+    "assets": ["package.json", "static/**/*", "fonts/**/*", "templates/**/*"],
+    "outputPath": "release"
+  }
+}

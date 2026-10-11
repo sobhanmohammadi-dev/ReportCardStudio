@@ -1,0 +1,101 @@
+/*
+ * Printable report cards. Every dimension is in millimetres and derives from --r (row height),
+ * which src/client/report/geometry.ts chooses so each card exactly fits its grid cell on A4.
+ * If you change a size here, update the matching constant in geometry.ts (the layout test
+ * `npm run test:layout` verifies that nothing overflows).
+ */
+
+.sheet {
+  --ink: #1b2230;
+  --muted: #5b6a7e;
+  --line: #d6dce6;
+  width: 210mm;
+  height: 297mm;
+  box-sizing: border-box;
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 2px 12px rgba(16, 24, 40, 0.18);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.sheet-grid { display: grid; width: 100%; align-content: start; }
+.cell { position: relative; display: flex; min-width: 0; min-height: 0; }
+.rc, .rc * { box-sizing: border-box; }
+.rc { width: 100%; font-size: calc(var(--r) * 0.6); line-height: var(--r); }
+.rc .s, .rc b, .rc .kd-school, .rc .kd-chip, .rc .pr-school { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rc .none { opacity: 0.55; }
+.cell > .rc-pro, .cell > .rc-kids { align-self: flex-start; }
+.multi .cell > .rc-pro, .multi .cell > .rc-kids { align-self: center; }
+
+/* ------------------------------------------------------------ Minimal */
+.cell-cut::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-inline-end: 0.25mm dashed #a3acb9; border-block-end: 0.25mm dashed #a3acb9; }
+.cell-cut.cut-top::after { border-block-start: 0.25mm dashed #a3acb9; }
+.cell-cut.cut-start::after { border-inline-start: 0.25mm dashed #a3acb9; }
+.rc-minimal { height: 100%; padding: 2.5mm 3mm; display: flex; flex-direction: column; justify-content: center; }
+.mn-name { flex: none; height: calc(var(--r) * 1.45); line-height: calc(var(--r) * 1.45); font-size: calc(var(--r) * 0.78); font-weight: 700; color: var(--dark); border-bottom: 0.3mm solid var(--primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mn-class { flex: none; height: calc(var(--r) * 1.05); line-height: calc(var(--r) * 1.05); margin-bottom: calc(var(--r) * 0.35); font-size: calc(var(--r) * 0.58); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mn-rows, .mn-sum { flex: none; }
+.mn-row { height: var(--r); display: flex; align-items: center; justify-content: space-between; border-bottom: 0.12mm solid var(--line); }
+.mn-row .s { flex: 1; min-width: 0; }
+.mn-row .g { flex: none; min-width: calc(var(--r) * 2.2); padding-inline-start: 1.5mm; text-align: end; font-weight: 700; font-variant-numeric: tabular-nums; }
+.mn-sum { margin-top: calc(var(--r) * 0.25); }
+.mn-sum .mn-row { font-weight: 700; color: var(--dark); }
+
+/* ------------------------------------------------------- Professional */
+.rc-pro { display: flex; flex-direction: column; padding: 5mm; background: #fff; border: 0.4mm solid var(--dark); border-radius: 1.6mm; }
+.pr-head { flex: none; margin-bottom: 3mm; border-radius: 1mm; overflow: hidden; }
+.pr-school { height: 10mm; line-height: 10mm; padding: 0 3mm; background: var(--primary); color: #fff; font-size: 4.4mm; font-weight: 700; text-align: center; }
+.pr-title { height: 6mm; line-height: 6mm; background: var(--soft); color: var(--dark); font-size: 3.1mm; font-weight: 700; text-align: center; }
+.pr-info { flex: none; height: 9mm; margin-bottom: 3mm; display: grid; grid-template-columns: 1.7fr 1fr 1fr; border: 0.2mm solid var(--line); }
+.pr-cell { min-width: 0; padding: 0 2mm; display: flex; flex-direction: column; justify-content: center; border-inline-start: 0.2mm solid var(--line); }
+.pr-cell:first-child { border-inline-start: 0; }
+.pr-cell .k { font-size: 2.3mm; line-height: 3.2mm; color: var(--muted); }
+.pr-cell b { font-size: 3.3mm; line-height: 4.6mm; }
+.pr-table { flex: none; margin-bottom: 3mm; outline: 0.2mm solid var(--line); outline-offset: -0.2mm; }
+.pr-th, .pr-row { display: flex; align-items: center; justify-content: space-between; padding: 0 2.5mm; }
+.pr-th { height: calc(var(--r) * 1.2); background: var(--primary); color: #fff; font-weight: 700; }
+.pr-row { height: var(--r); border-bottom: 0.12mm solid var(--line); }
+.pr-row:nth-child(odd) { background: var(--soft); }
+.pr-row .s { flex: 1; min-width: 0; }
+.pr-row .g, .pr-th span:last-child { flex: none; min-width: calc(var(--r) * 2.4); text-align: center; font-variant-numeric: tabular-nums; }
+.pr-row .g { font-weight: 700; }
+.pr-row.pr-total { background: var(--soft); font-weight: 700; color: var(--dark); }
+.pr-row.pr-avg { background: var(--dark); color: #fff; font-weight: 700; }
+.pr-foot { flex: none; height: 20mm; display: flex; align-items: flex-end; gap: 5mm; }
+.pr-seal { flex: none; width: 20mm; height: 20mm; padding: 1.5mm; display: flex; align-items: center; justify-content: center; text-align: center; border: 0.3mm dashed #8b95a5; border-radius: 50%; color: var(--muted); font-size: 2.2mm; line-height: 2.8mm; }
+.pr-sign { flex: 1; height: 20mm; display: flex; flex-direction: column; justify-content: flex-end; }
+.pr-sign .pr-line { padding-top: 1mm; border-top: 0.25mm solid #4b5563; text-align: center; color: var(--muted); font-size: 2.7mm; line-height: 3.6mm; }
+
+/* ----------------------------------------------------------- Playful */
+.rc-kids { display: flex; flex-direction: column; padding: 4mm; background: var(--soft); border: 1mm solid var(--primary); border-radius: 5mm; }
+.kd-head { flex: none; height: 18mm; margin-bottom: 3mm; display: flex; flex-direction: column; align-items: center; }
+.kd-school { max-width: 100%; height: 5mm; line-height: 5mm; padding: 0 3.5mm; border-radius: 2.5mm; background: #fff; color: var(--dark); font-size: 2.7mm; font-weight: 700; }
+.kd-title { height: 12mm; margin-top: 1mm; display: flex; align-items: center; gap: 2.5mm; color: var(--primary); font-size: 6.2mm; font-weight: 800; line-height: 12mm; }
+.kd-star { display: inline-block; flex: none; }
+.kd-name { flex: none; height: 14mm; margin-bottom: 2mm; padding: 0 4mm; display: flex; flex-direction: column; justify-content: center; background: #fff; border: 0.6mm dashed var(--primary); border-radius: 3.5mm; }
+.kd-name .k { font-size: 2.5mm; line-height: 3.5mm; color: var(--muted); }
+.kd-name b { font-size: 5.2mm; line-height: 7mm; }
+.kd-chips { flex: none; height: 6mm; margin-bottom: 3mm; display: flex; gap: 2mm; }
+.kd-chip { flex: 1; min-width: 0; height: 6mm; line-height: 6mm; padding: 0 2.5mm; border-radius: 3mm; color: #fff; font-size: 2.7mm; font-weight: 700; text-align: center; }
+.kd-list { flex: none; display: flex; flex-direction: column; gap: calc(var(--r) * 0.15); }
+.kd-row { height: var(--r); display: flex; align-items: center; padding-inline: calc(var(--r) * 0.45) calc(var(--r) * 0.08); background: #fff; border-radius: calc(var(--r) * 0.5); }
+.kd-row .kd-dot { flex: none; width: calc(var(--r) * 0.34); height: calc(var(--r) * 0.34); border-radius: 50%; }
+.kd-row .s { flex: 1; min-width: 0; margin-inline-start: calc(var(--r) * 0.5); font-size: calc(var(--r) * 0.6); font-weight: 700; line-height: var(--r); }
+.kd-row .kd-badge { flex: none; min-width: calc(var(--r) * 0.84); height: calc(var(--r) * 0.84); padding: 0 calc(var(--r) * 0.28); line-height: calc(var(--r) * 0.84); border-radius: calc(var(--r) * 0.42); color: #fff; font-size: calc(var(--r) * 0.54); font-weight: 800; text-align: center; font-variant-numeric: tabular-nums; }
+.kd-row .kd-badge.none { background: #e5e7eb; color: #6b7280; opacity: 1; }
+.kd-sum { flex: none; height: 14mm; margin-top: 3mm; display: flex; gap: 3mm; }
+.kd-pill { flex: 1; min-width: 0; height: 14mm; padding: 0 4mm; display: flex; align-items: center; justify-content: space-between; background: #fff; border: 0.7mm solid var(--primary); border-radius: 3.5mm; }
+.kd-pill span { color: var(--muted); font-size: 3mm; font-weight: 700; line-height: 4mm; }
+.kd-pill b { font-size: 6mm; line-height: 8mm; }
+.kd-sign { flex: none; height: 9mm; margin-top: 3mm; display: flex; align-items: flex-end; gap: 6mm; }
+.kd-sign div { flex: 1; padding-top: 0.8mm; border-top: 0.25mm solid #6b7280; text-align: center; color: var(--muted); font-size: 2.6mm; line-height: 3.4mm; }
+
+/* -------------------------------------------------------------- Print */
+@page { size: A4; margin: 0; }
+@media print {
+  .sheet { box-shadow: none; margin: 0; break-after: page; page-break-after: always; }
+  .sheet:last-child { break-after: auto; page-break-after: auto; }
+}

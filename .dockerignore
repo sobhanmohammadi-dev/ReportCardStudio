@@ -1,0 +1,9 @@
+node_modules
+dist
+release
+.git
+.github
+docs
+assets
+test
+*.md
