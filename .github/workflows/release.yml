@@ -167,7 +167,7 @@ jobs:
           tags: |
             type=raw,value=${{ needs.meta.outputs.version }}
             type=raw,value=latest,enable=${{ needs.meta.outputs.prerelease == 'false' }}
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64,linux/arm64
